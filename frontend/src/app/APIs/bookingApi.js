@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API = import.meta.env.VITE_API_URL;
+const API = "http://localhost:9000/api";
+
 
 export const getBookings = () =>
   axios.get(`${API}/bookings`);

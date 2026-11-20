@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createRoom } from "../APIs/roomApi";
+import { createRoom } from "../APIs/roomApi.js";
 
 function CreateRoom() {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function CreateRoom() {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <h1>Create Room</h1>
 
       <form onSubmit={handleSubmit}>
@@ -47,6 +47,7 @@ function CreateRoom() {
           placeholder="Room Name"
           value={room.name}
           onChange={handleChange}
+          required
         />
 
         <input
@@ -55,6 +56,7 @@ function CreateRoom() {
           placeholder="Location"
           value={room.location}
           onChange={handleChange}
+          required
         />
 
         <input
@@ -63,6 +65,7 @@ function CreateRoom() {
           placeholder="Capacity"
           value={room.capacity}
           onChange={handleChange}
+          required
         />
 
         <input

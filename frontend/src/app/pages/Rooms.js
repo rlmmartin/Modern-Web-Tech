@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getRooms, deleteRoom } from "../APIs/roomApi";
+import { getRooms, deleteRoom } from "../APIs/roomApi.js";
 
 function Rooms() {
   const [rooms, setRooms] = useState([]);
 
-  
-
   useEffect(() => {
-  const fetchRooms = async () => {
+    getRooms()
+      .then((res) => {
+        setRooms(res.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const loadRooms = async () => {
     try {
       const res = await getRooms();
       setRooms(res.data.data);
@@ -17,35 +24,42 @@ function Rooms() {
     }
   };
 
-  fetchRooms();
-}, []);
-
   const handleDelete = async (id) => {
-    await deleteRoom(id);
-    loadRooms();
+    try {
+      await deleteRoom(id);
+      await loadRooms();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+
   return (
-    <div>
+    <div className="page-container">
       <h1>Rooms</h1>
 
-      <Link to="/rooms/create">
+      <Link className="add-link" 
+      to="/rooms/create">
         Add Room
       </Link>
 
       {rooms.map((room) => (
-        <div key={room._id}>
+        <div className="room-card" key={room._id}>
           <h3>{room.name}</h3>
           <p>{room.location}</p>
           <p>{room.capacity}</p>
 
-          <Link to={`/rooms/edit/${room._id}`}>
+          <div className="actions">
+            <Link to={`/rooms/edit/${room._id}`}>
             Edit
           </Link>
 
           <button onClick={() => handleDelete(room._id)}>
             Delete
           </button>
+          </div>
+          
+
         </div>
       ))}
     </div>

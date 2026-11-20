@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { getRooms } from "../APIs/roomApi";
-import { createBooking } from "@/app/APIs/bookingApi";
+import { getRooms } from "../APIs/roomApi.js";
+import { createBooking } from "../APIs/bookingApi.js";
 
 function CreateBooking() {
   const navigate = useNavigate();
@@ -30,10 +29,7 @@ function CreateBooking() {
   fetchRooms();
 }, []);
 
-  const loadRooms = async () => {
-    const res = await getRooms();
-    setRooms(res.data.data);
-  };
+  
 
   const handleChange = (e) => {
     setBooking({
@@ -51,7 +47,7 @@ function CreateBooking() {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <h1>Create Booking</h1>
 
       <form onSubmit={handleSubmit}>
@@ -61,6 +57,7 @@ function CreateBooking() {
           placeholder="Student Name"
           value={booking.studentName}
           onChange={handleChange}
+          required
         />
 
         <input
@@ -69,6 +66,7 @@ function CreateBooking() {
           placeholder="Student Email"
           value={booking.studentEmail}
           onChange={handleChange}
+          required
         />
 
         <select
@@ -95,6 +93,7 @@ function CreateBooking() {
           name="startTime"
           value={booking.startTime}
           onChange={handleChange}
+          required
         />
 
         <input
@@ -102,6 +101,7 @@ function CreateBooking() {
           name="endTime"
           value={booking.endTime}
           onChange={handleChange}
+          required
         />
 
         <button type="submit">

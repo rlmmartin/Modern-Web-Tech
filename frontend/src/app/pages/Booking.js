@@ -1,32 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getBookings, deleteBooking } from "../APIs/bookingApi";
+import { getBookings, deleteBooking } from "../APIs/bookingApi.js";
 
 function Bookings() {
   const [bookings, setBookings] = useState([]);
 
   const loadBookings = async () => {
-    try {
-      const res = await getBookings();
-      setBookings(res.data.data);
-    } catch (error) {
-      console.error("Error loading bookings:", error);
-    }
-  };
-
+  try {
+    const response = await getBookings();
+    setBookings(response.data.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
   useEffect(() => {
-  const fetchBookings = async () => {
-    try {
-      const res = await getBookings();
-      setBookings(res.data.data);
-    } catch (error) {
+  getBookings()
+    .then((response) => {
+      setBookings(response.data.data);
+    })
+    .catch((error) => {
       console.error(error);
-    }
-  };
-
-  fetchBookings();
+    });
 }, []);
-
   const handleDelete = async (id) => {
     try {
       await deleteBooking(id);
@@ -37,24 +32,29 @@ function Bookings() {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <h1>Bookings</h1>
 
-      <Link to="/bookings/create">
+      <Link className="add-link" to="/bookings/create">
         Add Booking
       </Link>
 
       {bookings.map((booking) => (
-        <div key={booking._id}>
+        <div className="booking-card"
+          key={booking._id}>
           <h3>{booking.studentName}</h3>
 
           <p>Room: {booking.roomId?.name}</p>
 
           <p>Email: {booking.studentEmail}</p>
-
-          <Link to={`/bookings/edit/${booking._id}`}>
+        <div className="actions">
+         <Link to={`/bookings/edit/${booking._id}`}>
             Edit
-          </Link>
+          </Link> 
+        </div>
+
+        
+          
 
           <button onClick={() => handleDelete(booking._id)}>
             Delete

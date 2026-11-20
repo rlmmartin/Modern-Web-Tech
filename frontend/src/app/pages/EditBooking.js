@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getBookingById, updateBooking } from "../APIs/bookingApi";
-import { getRooms } from "../APIs/roomApi";
+import { getBookingById, updateBooking } from "../APIs/bookingApi.js";
+import { getRooms } from "../APIs/roomApi.js";
 
 function EditBooking() {
   const { id } = useParams();
@@ -27,7 +27,7 @@ function EditBooking() {
         const data = bookingRes.data.data;
 
         setBooking({
-          roomId: data.roomId._id || data.roomId,
+          roomId: data.roomId?._id || data.roomId,
           studentName: data.studentName,
           studentEmail: data.studentEmail,
           startTime: data.startTime.slice(0, 16),
@@ -67,7 +67,7 @@ function EditBooking() {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <h1>Edit Booking</h1>
 
       <form onSubmit={handleSubmit}>

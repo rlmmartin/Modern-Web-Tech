@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = process.env.API_URL;
+const API = "http://localhost:9000/api";
 
 export const getRooms = () =>
   axios.get(`${API}/rooms`);

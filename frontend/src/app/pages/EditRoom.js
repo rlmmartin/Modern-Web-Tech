@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getRoomById, updateRoom } from "../APIs/roomApi";
+import { getRoomById, updateRoom } from "../APIs/roomApi.js";
 
 function EditRoom() {
   const { id } = useParams();
@@ -22,7 +22,7 @@ function EditRoom() {
           name: res.data.data.name,
           location: res.data.data.location,
           capacity: res.data.data.capacity,
-          features: res.data.data.features.join(", "),
+          features: res.data.data.features?.join(", ") || "",
         });
       } catch (error) {
         console.error("Error loading room:", error);
@@ -63,7 +63,7 @@ function EditRoom() {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <h1>Edit Room</h1>
 
       <form onSubmit={handleSubmit}>
