@@ -31,9 +31,13 @@ function CreateRoom() {
         .filter((item) => item),
     };
 
-    await createRoom(roomData);
-
-    navigate("/rooms");
+try {
+  await createRoom(roomData);
+  alert("Room created successfully");
+  navigate("/rooms");
+} catch (error) {
+  alert(error.response?.data?.message || "Failed to create room");
+}
   };
 
   return (

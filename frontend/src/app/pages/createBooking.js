@@ -17,19 +17,17 @@ function CreateBooking() {
   });
 
   useEffect(() => {
-  const fetchRooms = async () => {
-    try {
-      const res = await getRooms();
-      setRooms(res.data.data);
-    } catch (error) {
-      console.error("Error loading rooms:", error);
-    }
-  };
+    const fetchRooms = async () => {
+      try {
+        const res = await getRooms();
+        setRooms(res.data.data);
+      } catch (error) {
+        console.error("Error loading rooms:", error);
+      }
+    };
 
-  fetchRooms();
-}, []);
-
-  
+    fetchRooms();
+  }, []);
 
   const handleChange = (e) => {
     setBooking({
@@ -41,9 +39,13 @@ function CreateBooking() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await createBooking(booking);
-
-    navigate("/bookings");
+try {
+  await createBooking(booking);
+  alert("Booking created successfully");
+  navigate("/bookings");
+} catch (error) {
+  alert(error.response?.data?.message || "Failed to create booking");
+}
   };
 
   return (
@@ -73,16 +75,12 @@ function CreateBooking() {
           name="roomId"
           value={booking.roomId}
           onChange={handleChange}
+          required
         >
-          <option value="">
-            Select Room
-          </option>
+          <option value="">Select Room</option>
 
           {rooms.map((room) => (
-            <option
-              key={room._id}
-              value={room._id}
-            >
+            <option key={room._id} value={room._id}>
               {room.name}
             </option>
           ))}
@@ -104,9 +102,7 @@ function CreateBooking() {
           required
         />
 
-        <button type="submit">
-          Create Booking
-        </button>
+        <button type="submit">Create Booking</button>
       </form>
     </div>
   );

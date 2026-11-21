@@ -25,6 +25,10 @@ function Rooms() {
   };
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this room?")) {
+      return;
+    }
+
     try {
       await deleteRoom(id);
       await loadRooms();
@@ -33,13 +37,11 @@ function Rooms() {
     }
   };
 
-
   return (
     <div className="page-container">
       <h1>Rooms</h1>
 
-      <Link className="add-link" 
-      to="/rooms/create">
+      <Link className="add-link" to="/rooms/create">
         Add Room
       </Link>
 
@@ -47,19 +49,19 @@ function Rooms() {
         <div className="room-card" key={room._id}>
           <h3>{room.name}</h3>
           <p>{room.location}</p>
-          <p>{room.capacity}</p>
+          <p>Capacity: {room.capacity}</p>
+          <p>
+            Features:{" "}
+            {room.features?.length ? room.features.join(", ") : "None"}
+          </p>
 
           <div className="actions">
-            <Link to={`/rooms/edit/${room._id}`}>
-            Edit
-          </Link>
+            <Link to={`/rooms/edit/${room._id}`}>Edit</Link>
 
-          <button onClick={() => handleDelete(room._id)}>
-            Delete
-          </button>
+            <button type="button" onClick={() => handleDelete(room._id)}>
+              Delete
+            </button>
           </div>
-          
-
         </div>
       ))}
     </div>
